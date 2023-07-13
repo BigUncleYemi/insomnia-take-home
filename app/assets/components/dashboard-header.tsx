@@ -7,7 +7,7 @@ const Header = () => {
       <Link href="/" className="text-white w-[100%] flex items-start text-[24px] ml-4 font-bold">
         ZENDIA
       </Link>
-      <WallectConnectButton />
+      <WallectConnectButton noAddressRedirect />
     </div>
   );
 };
