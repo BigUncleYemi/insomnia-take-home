@@ -15,6 +15,7 @@
     "@walletconnect/web3-provider": "^1.8.0",
     "alchemy-sdk": "^2.9.2",
     "autoprefixer": "10.4.14",
+    "axios": "^0.26.1",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "ethers": "^5.7.2",

@@ -6,7 +6,7 @@ import Footer from "./components/footer";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center py-10 px-5 sm:px-10 md:px-24 lg:px-40 bg-[#111314]">
+    <main className="flex min-h-screen flex-col items-center py-10 px-5 sm:px-10  xl:px-40 bg-[#111314]">
         <Header />
         <Hero />
         <Sponsors />

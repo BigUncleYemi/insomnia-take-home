@@ -6,7 +6,7 @@ const Hero = () => {
     <div className="lg:flex w-[100%] mt-20 lg:mt-30 mb-20 md:mb-40">
       {/* Description */}
       <div className="lg:flex mt-10 w-[100%] lg:w-[50%] items-start flex-col mb-20 lg:mb-0">
-        <div className="flex text-[12px] gap-2 flex-col lg:flex-row">
+        <div className="flex text-[12px] gap-2 flex-col xl:flex-row">
           <div className="flex bg-[#1E2021] px-4 py-1 rounded-[20px] items-center w-[fit-content] mb-1 lg:mb-0">
             <div className="bg-slate-400 w-[24px] h-[24px] rounded-full flex items-center justify-center">
               <Image

@@ -9,15 +9,23 @@ import {
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import { getAddressNFT } from "../service/nft";
+import { AppContextType, StateType } from "../types";
 
-type StateType = {
-  provider?: any;
-  web3Provider?: any;
-  address?: string | null;
-  chainId?: number | null;
-  loading?: boolean;
+let initialState: AppContextType = {
+  disconnect: () => {},
+  connect: () => {},
+  loading: false,
+  showNFTPage: false,
+  NFTData: null,
+  provider: null,
+  web3Provider: null,
+  address: null,
+  chainId: null,
 };
+
+const AppContext = createContext<AppContextType>(initialState);
 
 const providerOptions = {
   walletconnect: {
@@ -34,18 +42,27 @@ if (typeof window !== "undefined") {
   });
 }
 
-const AppContext = createContext<any>({});
-
 export function AppWrapper({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
+  const router = useRouter();
   const [state, setState] = useState<StateType>({
     provider: null,
     web3Provider: null,
     address: null,
     chainId: null,
     loading: false,
+    NFTData: null,
+    showNFTPage: false,
   });
-  const { provider, web3Provider, address, chainId, loading } = state;
+
+  const {
+    provider,
+    web3Provider,
+    address,
+    chainId,
+    loading,
+    NFTData,
+    showNFTPage,
+  } = state;
 
   const connect = useCallback(async function () {
     setState((prevState: StateType) => ({
@@ -57,16 +74,52 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     const signer = web3Provider.getSigner();
     const address = await signer.getAddress();
     const network = await web3Provider.getNetwork();
-    setState((prevState: StateType) => ({
-      ...prevState,
-      provider,
-      web3Provider,
-      address,
-      chainId: network.chainId,
-      loading: false,
-    }));
-    router.push('/assets');
+    const res = await getAddressNFT(address);
+    try {
+      // @ts-ignore
+      if (res?.ownedNfts?.length < 1) {
+        setState((prevState: StateType) => ({
+          ...prevState,
+          provider,
+          web3Provider,
+          address,
+          chainId: network.chainId,
+          loading: false,
+          showNFTPage: "empty",
+        }));
+      } else {
+        setState((prevState: StateType) => ({
+          ...prevState,
+          provider,
+          web3Provider,
+          address,
+          chainId: network.chainId,
+          loading: false,
+          showNFTPage: "has-data",
+          NFTData: res,
+        }));
+      }
+    } catch (error: any) {
+      console.log(error);
+      setState((prevState: StateType) => ({
+        ...prevState,
+        provider,
+        web3Provider,
+        address,
+        chainId: network.chainId,
+        loading: false,
+        showNFTPage: "error",
+      }));
+    }
+    router.push("/assets");
   }, []);
+
+  // Auto connect to the cached provider
+  useEffect(() => {
+    if (web3Modal.cachedProvider) {
+      connect();
+    }
+  }, [connect]);
 
   const disconnect = useCallback(
     async function () {
@@ -76,23 +129,18 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       }));
       await web3Modal.clearCachedProvider();
       setState({
+        NFTData: null,
+        showNFTPage: false,
         provider: null,
         web3Provider: null,
         address: null,
         chainId: null,
         loading: false,
       });
-      router.push('/');
+      router.push("/");
     },
     [provider]
   );
-
-  // Auto connect to the cached provider
-  useEffect(() => {
-    if (web3Modal.cachedProvider) {
-      connect();
-    }
-  }, [connect]);
 
   useEffect(() => {
     if (provider?.on) {
@@ -127,7 +175,19 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   }, [provider, disconnect]);
 
   return (
-    <AppContext.Provider value={{ provider, web3Provider, address, chainId, loading, connect, disconnect }}>
+    <AppContext.Provider
+      value={{
+        showNFTPage,
+        provider,
+        web3Provider,
+        address,
+        chainId,
+        loading,
+        NFTData,
+        connect,
+        disconnect
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
