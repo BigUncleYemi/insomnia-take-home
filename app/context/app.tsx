@@ -65,9 +65,47 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     showNFTPage,
   } = state;
 
-  const handleGetNFTdata = async => (pageKey: string) => {
+  const handleGetNFTdata = async () => async (pageKey: string) => {
+    if (!address) return
     try {
       const res = await getAddressNFT(address, pageKey);
+      // @ts-ignore
+      if (res?.ownedNfts?.length < 1) {
+        setState((prevState: StateType) => ({
+          ...prevState,
+          loading: false,
+          showNFTPage: "empty",
+        }));
+      } else {
+        setState((prevState: StateType) => ({
+          ...prevState,
+          loading: false,
+          showNFTPage: "has-data",
+          NFTData: res,
+        }));
+      }
+    } catch (error: any) {
+      console.log(error);
+      setState((prevState: StateType) => ({
+        ...prevState,
+        loading: false,
+        showNFTPage: "error",
+      }));
+    }
+    
+  }
+  const connect = useCallback(async function () {
+    setState((prevState: StateType) => ({
+      ...prevState,
+      loading: true,
+    }));
+    const provider = await web3Modal.connect();
+    const web3Provider = new ethers.providers.Web3Provider(provider);
+    const signer = web3Provider.getSigner();
+    const address = await signer.getAddress();
+    const network = await web3Provider.getNetwork(); 
+    const res = await getAddressNFT(address);
+    try {
       // @ts-ignore
       if (res?.ownedNfts?.length < 1) {
         setState((prevState: StateType) => ({
@@ -103,19 +141,6 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         showNFTPage: "error",
       }));
     }
-    
-  }
-  const connect = useCallback(async function () {
-    setState((prevState: StateType) => ({
-      ...prevState,
-      loading: true,
-    }));
-    const provider = await web3Modal.connect();
-    const web3Provider = new ethers.providers.Web3Provider(provider);
-    const signer = web3Provider.getSigner();
-    const address = await signer.getAddress();
-    const network = await web3Provider.getNetwork();
-    await handleGetNFTdata();
     router.push("/assets");
   }, []);
 
