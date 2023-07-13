@@ -26,7 +26,7 @@ let initialState: AppContextType = {
   chainId: null,
 };
 
-const AppContext = createContext<AppContextType>(initialState);
+export const AppContext = createContext<AppContextType>(initialState);
 
 const providerOptions = {
   walletconnect: {
@@ -66,7 +66,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   } = state;
 
   const handleGetNFTdata = async () => async (pageKey: string) => {
-    if (!address) return
+    if (!address) return;
     try {
       const res = await getAddressNFT(address, pageKey);
       // @ts-ignore
@@ -92,8 +92,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         showNFTPage: "error",
       }));
     }
-    
-  }
+  };
   const connect = useCallback(async function () {
     setState((prevState: StateType) => ({
       ...prevState,
@@ -103,7 +102,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     const web3Provider = new ethers.providers.Web3Provider(provider);
     const signer = web3Provider.getSigner();
     const address = await signer.getAddress();
-    const network = await web3Provider.getNetwork(); 
+    const network = await web3Provider.getNetwork();
     const res = await getAddressNFT(address);
     try {
       // @ts-ignore
@@ -216,7 +215,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         NFTData,
         connect,
         handleGetNFTdata,
-        disconnect
+        disconnect,
       }}
     >
       {children}
