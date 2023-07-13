@@ -16,6 +16,7 @@ import { AppContextType, StateType } from "../types";
 let initialState: AppContextType = {
   disconnect: () => {},
   connect: () => {},
+  handleGetNFTdata: () => {},
   loading: false,
   showNFTPage: false,
   NFTData: null,
@@ -64,18 +65,9 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     showNFTPage,
   } = state;
 
-  const connect = useCallback(async function () {
-    setState((prevState: StateType) => ({
-      ...prevState,
-      loading: true,
-    }));
-    const provider = await web3Modal.connect();
-    const web3Provider = new ethers.providers.Web3Provider(provider);
-    const signer = web3Provider.getSigner();
-    const address = await signer.getAddress();
-    const network = await web3Provider.getNetwork();
-    const res = await getAddressNFT(address);
+  const handleGetNFTdata = async => (pageKey: string) => {
     try {
+      const res = await getAddressNFT(address, pageKey);
       // @ts-ignore
       if (res?.ownedNfts?.length < 1) {
         setState((prevState: StateType) => ({
@@ -111,6 +103,19 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         showNFTPage: "error",
       }));
     }
+    
+  }
+  const connect = useCallback(async function () {
+    setState((prevState: StateType) => ({
+      ...prevState,
+      loading: true,
+    }));
+    const provider = await web3Modal.connect();
+    const web3Provider = new ethers.providers.Web3Provider(provider);
+    const signer = web3Provider.getSigner();
+    const address = await signer.getAddress();
+    const network = await web3Provider.getNetwork();
+    await handleGetNFTdata();
     router.push("/assets");
   }, []);
 
@@ -185,6 +190,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         loading,
         NFTData,
         connect,
+        handleGetNFTdata,
         disconnect
       }}
     >

@@ -10,9 +10,12 @@ import AssetItemSkeleton from "./asset-item-skeleton";
 
 
 const AssetList = () => {
-  const { NFTData = { ownedNfts: [] }, showNFTPage, loading } = useAppContext();
+  const { NFTData = { ownedNfts: [], pageKey: "" }, showNFTPage, loading, handleGetNFTdata } = useAppContext();
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
-  console.log(NFTData)
+  console.log(NFTData);
+  const handleFetchMore = async () => {
+    await handleGetNFTdata(pageKey);
+  }
   return (
     <div className="asset_layout w-[90%] px-5 pt-4 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-max gap-y-20 gap-x-10 relative">
     {!loading && NFTData?.ownedNfts?.map((ownedNft: any, index: number) => (
