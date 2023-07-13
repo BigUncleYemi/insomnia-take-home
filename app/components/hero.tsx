@@ -38,7 +38,10 @@ const Hero = () => {
             </span>
           </div>
         </div>
-        <div className="text-[28px] lg:text-[48px] font-bold w-[90%] lg:w-[75%] mt-4">
+        <div
+          role="heading"
+          className="text-[28px] lg:text-[48px] font-bold w-[90%] lg:w-[75%] mt-4"
+        >
           Buy & Sell Digital Assets in the ZENDIA region
         </div>
         <div className="flex flex-col font-thin mt-5 text-[12px] lg:text-[16px]">

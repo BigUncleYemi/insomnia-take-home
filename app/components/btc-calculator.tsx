@@ -13,6 +13,7 @@ const BtcCalculator = () => {
     "EUR",
   ]);
   const [time, setTime] = useState<number>(5000);
+  comst[(loading, setLoading)] = useState<boolean>(true);
   const [data, setData] = useState<any>({});
   useLayoutEffect(() => {
     const getData = () => {
@@ -20,6 +21,7 @@ const BtcCalculator = () => {
         .get("https://api.coindesk.com/v1/bpi/currentprice.json")
         .then((res) => {
           setData(res?.data?.bpi);
+          setLoading(false);
         });
     };
     getData();
@@ -55,6 +57,7 @@ const BtcCalculator = () => {
             <div className="flex gap-3 items-center text-[14px]">
               <div
                 onClick={() => handleCur("USD")}
+                data-itemid="usd-button"
                 className={`flex bg-[#2d3032]  px-3 py-1 rounded-[20px] items-center cursor-pointer hover:bg-amber-700 ${
                   selectedCur.includes("USD") ? "bg-amber-700" : ""
                 } hover:opacity-[75%]`}
@@ -64,6 +67,7 @@ const BtcCalculator = () => {
               {/* active */}
               <div
                 onClick={() => handleCur("GBP")}
+                data-itemid="gbp-button"
                 className={`flex bg-[#2d3032]  px-3 py-1 rounded-[20px] items-center cursor-pointer hover:bg-amber-700 ${
                   selectedCur.includes("GBP") ? "bg-amber-700" : ""
                 } hover:opacity-[75%]`}
@@ -72,6 +76,7 @@ const BtcCalculator = () => {
               </div>
               <div
                 onClick={() => handleCur("EUR")}
+                data-itemid="eur-button"
                 className={`flex bg-[#2d3032]  px-3 py-1 rounded-[20px] items-center cursor-pointer hover:bg-amber-700 ${
                   selectedCur.includes("EUR") ? "bg-amber-700" : ""
                 } hover:opacity-[75%]`}
@@ -92,6 +97,7 @@ const BtcCalculator = () => {
             <div className="flex items-center gap-4 ml-3 px-4 py-2 bg-[#191919] rounded-full text-[14px]">
               <div
                 onClick={() => handleTimeInterval(5000)}
+                data-itemid="5s-button"
                 className={`w-[40px] h-[40px] flex items-center justify-center cursor-pointer hover:bg-slate-400 ${
                   time === 5000 ? "bg-slate-400" : ""
                 } p-2 rounded-full`}
@@ -101,6 +107,7 @@ const BtcCalculator = () => {
 
               <div
                 onClick={() => handleTimeInterval(30000)}
+                data-itemid="30s-button"
                 className={`w-[40px] h-[40px] flex items-center justify-center cursor-pointer hover:bg-slate-400 ${
                   time === 30000 ? "bg-slate-400" : ""
                 } p-2 rounded-full`}
@@ -109,6 +116,7 @@ const BtcCalculator = () => {
               </div>
               <div
                 onClick={() => handleTimeInterval(60000)}
+                data-itemid="1m-button"
                 className={`w-[40px] h-[40px] flex items-center justify-center cursor-pointer hover:bg-slate-400 ${
                   time === 60000 ? "bg-slate-400" : ""
                 } p-2 rounded-full`}
