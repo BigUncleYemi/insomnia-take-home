@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AppContextWrapper>
-        {children}</AppContextWrapper> </body>
+        <AppContextWrapper>{children}</AppContextWrapper>{" "}
+      </body>
     </html>
   );
 }

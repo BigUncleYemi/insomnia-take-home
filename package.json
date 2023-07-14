@@ -6,16 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch",
+    "test:ci": "jest --ci"
+  },
+  "jest": {
+    "preset": "ts-jest"
   },
   "dependencies": {
+    "@babel/plugin-syntax-jsx": "^7.22.5",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-modules": "^0.1.4",
+    "@babel/preset-react": "^7.22.5",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
-    "@types/testing-library__jest-dom": "5.14.5",
     "@types/node": "20.4.2",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.7",
+    "@types/testing-library__jest-dom": "5.14.5",
     "@walletconnect/web3-provider": "^1.8.0",
     "alchemy-sdk": "^2.9.2",
     "autoprefixer": "10.4.14",
@@ -30,6 +39,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.2",
+    "ts-jest": "^29.1.1",
     "typescript": "5.1.6",
     "web3": "^4.0.3",
     "web3modal": "^1.9.12"
