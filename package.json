@@ -39,5 +39,9 @@
     "typescript": "5.1.6",
     "web3": "^4.0.3",
     "web3modal": "^1.9.12"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.22.5",
+    "@jest/globals": "^29.6.1"
   }
 }
