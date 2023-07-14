@@ -53,7 +53,6 @@ const Modal = ({
                 type="button"
                 className="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-700 mr-2"
                 onClick={() => {
-                  console.log("hey");
                   closeMoal(false);
                 }}
               >

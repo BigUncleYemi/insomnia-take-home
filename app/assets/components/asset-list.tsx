@@ -36,12 +36,6 @@ const AssetList = () => {
       </div>
     );
   }
-  console.log(
-    (page + 1) * rowsPerPage === total,
-    page,
-    total,
-    page * rowsPerPage + rowsPerPage
-  );
   return (
     <>
       <div className="asset_layout w-[90%] px-5 pt-4 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-max gap-y-20 gap-x-10 relative">
