@@ -3,6 +3,7 @@
 import React, { useState, useLayoutEffect } from "react";
 import Image from "next/image";
 import axios from "axios";
+import Skeleton from "./skeleton";
 
 interface Currency {}
 
@@ -13,7 +14,7 @@ const BtcCalculator = () => {
     "EUR",
   ]);
   const [time, setTime] = useState<number>(5000);
-  comst[(loading, setLoading)] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<any>({});
   useLayoutEffect(() => {
     const getData = () => {
@@ -45,7 +46,7 @@ const BtcCalculator = () => {
     <div className="w-[100%] lg:w-[50%] flex flex-col items-center justify-center">
       <div className="w-[100%] bg-[#1E2021] rounded-[10px] py-4 px-2 md:px-4 lg:px-8">
         <div className="flex justify-between flex-col items-center  md:flex-row lg:flex-col 2xl:flex-row">
-          <div className="flex mb-4 md:mb-0">
+          <div className="flex my-4 ">
             <Image
               src="/bitcoin.svg"
               alt="bitcoin icon"
@@ -127,7 +128,14 @@ const BtcCalculator = () => {
           </div>
         </div>
       </div>
-      {selectedCur.length > 0 && (
+      {loading && (
+        <div className="bg-[#1E2021] mt-8 md:mt-4 py-4 px-4 rounded-[10px] w-[60%]">
+          <div className="text-[14px] font-bold">
+            <Skeleton width="100%" height="45px" />
+          </div>
+        </div>
+      )}
+      {selectedCur.length > 0 && !loading && (
         <div className="bg-[#1E2021] mt-8 md:mt-4 py-4 px-4 rounded-[10px] flex flex-wrap gap-4 md:gap-12 justify-around items-center text-[12px] sm:text-[18px] md:text-[20px] font-semi-bold">
           {selectedCur.includes("USD") && (
             <span>
