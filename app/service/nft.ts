@@ -6140,11 +6140,8 @@ const res = {
   blockHash:
     "0x010376bf70b609e7649952435af9fedb5896316f6965c80a68b0221d8d9bc670",
 };
-const getAddressNFT = async (address: string, pageKey: string | undefined = "" ) => {
-  let Option: any =  { pageSize: 24 }
-  if (pageKey) Option.pageKey = pageKey;
-  return await alchemy.nft.getNftsForOwner(address, Option)
-}
+
+const getAddressNFT = async (address: string ) => await alchemy.nft.getNftsForOwner(address);
 
 export {
   getAddressNFT,

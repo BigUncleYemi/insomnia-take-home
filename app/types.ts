@@ -53,7 +53,6 @@ export interface AppContextType {
   chainId?: number | null;
   connect: () => void;
   disconnect: () => void;
-  handleGetNFTdata: (data:string) => void;
   loading: boolean;
   showNFTPage: string | null | boolean;
   NFTData: OwnedNftsResponse | null | undefined;

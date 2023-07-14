@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useAppContext } from "../context/app";
 import { parseAddress } from "../helper";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 const WallectConnectButton = ({
@@ -13,16 +13,18 @@ const WallectConnectButton = ({
   showAssetLink?: boolean;
   noAddressRedirect?: boolean;
 }) => {
-  const router = useRouter()
+  const router = useRouter();
+  const session = useRef(false);
   const { connect, loading, address, disconnect } = useAppContext();
   const label = loading ? "Connecting wallet" : "Connect wallet";
 
+  const activateSession = () => (session.current = true);
+
   useEffect(() => {
-    console.log({address, loading})
-    if (noAddressRedirect && !address && !loading) { 
-      console.log({address, loading}, "kjhugyf")
+    if (noAddressRedirect && !address && !loading && session.current) {
       router.replace("/")
     }
+    activateSession();
   },[address, loading, noAddressRedirect, router])
   return (
     <>
