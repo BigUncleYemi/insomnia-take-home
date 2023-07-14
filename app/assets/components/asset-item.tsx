@@ -3,18 +3,31 @@ import { Asset } from "@/app/types";
 import Image from "next/image";
 import { useState } from "react";
 
-
-
-const Modal = ({closeMoal, open} : {closeMoal: (value:boolean)  => void; open: boolean;}) => {
+const Modal = ({
+  closeMoal,
+  open,
+}: {
+  closeMoal: (value: boolean) => void;
+  open: boolean;
+}) => {
   return (
     <div
-      className={`fixed z-10 overflow-y-auto top-0 w-full left-0  ${open ? "" : "hidden"}`}
+      className={`fixed z-10 overflow-y-auto top-0 w-full left-0  ${
+        open ? "" : "hidden"
+      }`}
       id="modal"
     >
       <div className="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div onClick={() => closeMoal(false)} className="fixed inset-0 transition-opacity">
+        <div
+          onClick={() => closeMoal(false)}
+          className="fixed inset-0 transition-opacity"
+        >
           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
-          <span className={`${open ? "" : "hidden"} sm:inline-block sm:align-middle sm:h-screen`}>
+          <span
+            className={`${
+              open ? "" : "hidden"
+            } sm:inline-block sm:align-middle sm:h-screen`}
+          >
             ​
           </span>
           <div
@@ -39,7 +52,10 @@ const Modal = ({closeMoal, open} : {closeMoal: (value:boolean)  => void; open: b
               <button
                 type="button"
                 className="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-700 mr-2"
-                onClick={() =>{console.log("hey"); closeMoal(false)}}
+                onClick={() => {
+                  console.log("hey");
+                  closeMoal(false);
+                }}
               >
                 <i className="fas fa-times" /> Cancel
               </button>
@@ -67,6 +83,7 @@ const AssetItem = ({
   return (
     <div
       onClick={() => onClick(data)}
+      data-testid="nft-item"
       className="flex flex-col w-[100%] cursor-pointer"
     >
       <div className="w-[100%] rounded h-[350px]">
@@ -82,7 +99,10 @@ const AssetItem = ({
           alt={data?.rawMetadata?.name || data?.contract?.name}
         />
       </div>
-      <div className="mt-3 text-[18px] font-bold capitalize">
+      <div
+        data-testid="title"
+        className="mt-3 text-[18px] font-bold capitalize"
+      >
         {data?.rawMetadata?.name || data?.contract?.name}
       </div>
     </div>

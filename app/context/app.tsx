@@ -25,7 +25,7 @@ let initialState: AppContextType = {
   chainId: null,
 };
 
-const AppContext = createContext<AppContextType>(initialState);
+export const AppContext = createContext<AppContextType>(initialState);
 
 const providerOptions = {
   walletconnect: {
@@ -72,7 +72,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     const web3Provider = new ethers.providers.Web3Provider(provider);
     const signer = web3Provider.getSigner();
     const address = await signer.getAddress();
-    const network = await web3Provider.getNetwork(); 
+    const network = await web3Provider.getNetwork();
     const res = await getAddressNFT(address);
     try {
       // @ts-ignore
